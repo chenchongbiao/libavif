@@ -1,0 +1,86 @@
+Source: libavif
+Section: libs
+Priority: optional
+Maintainer: Debian Multimedia Maintainers <debian-multimedia@lists.debian.org>
+Uploaders:
+ Boyuan Yang <byang@debian.org>,
+Build-Depends:
+ cmake,
+ debhelper-compat (= 13),
+ libaom-dev (>= 3~),
+ libcjson-dev,
+ libdav1d-dev,
+# only enable when libgav1-dev exist, see rules file
+ libgav1-dev [amd64 arm64 armel armhf i386 mips64el ppc64el s390x hppa ppc64 riscv64 x32],
+ libgdk-pixbuf2.0-dev,
+ libjpeg-dev,
+ libpng-dev,
+ pkg-config,
+ zlib1g-dev,
+Standards-Version: 4.6.0
+Rules-Requires-Root: no
+Homepage: https://github.com/AOMediaCodec/libavif
+Vcs-Git: https://salsa.debian.org/multimedia-team/libavif.git
+Vcs-Browser: https://salsa.debian.org/multimedia-team/libavif
+
+Package: libavif-bin
+Section: utils
+Architecture: any
+Depends:
+ libavif13 (= ${binary:Version}),
+ ${misc:Depends},
+ ${shlibs:Depends},
+Description: Library for handling .avif files (utilities)
+ This library aims to be a friendly, portable C implementation of the AV1
+ Image File Format as described in https://aomediacodec.github.io/av1-avif/.
+ .
+ This package provides several utilities provided by the library:
+  - avifdec
+  - avifenc
+ .
+ Due to the temporary lack of support libraries, no decoder is available
+ for now. As a result, the avifenc binary won't work.
+
+Package: libavif-dev
+Section: libdevel
+Architecture: any
+Multi-Arch: same
+Depends:
+ libavif13 (= ${binary:Version}),
+ ${misc:Depends},
+Description: Library for handling .avif files (development files)
+ This library aims to be a friendly, portable C implementation of the AV1
+ Image File Format as described in https://aomediacodec.github.io/av1-avif/.
+ .
+ This package provides the development files.
+
+Package: libavif13
+Architecture: any
+Multi-Arch: same
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+Description: Library for handling .avif files
+ This library aims to be a friendly, portable C implementation of the AV1
+ Image File Format as described in https://aomediacodec.github.io/av1-avif/.
+ .
+ This package provides the shared library files.
+
+Package: libavif-gdk-pixbuf
+Architecture: any
+Multi-Arch: same
+Depends:
+ libavif13 (= ${binary:Version}),
+ ${misc:Depends},
+ ${shlibs:Depends},
+Breaks:
+ libavif7-gdk-pixbuf,
+ libavif8-gdk-pixbuf,
+Replaces:
+ libavif7-gdk-pixbuf,
+ libavif8-gdk-pixbuf,
+Description: Library for handling .avif files (GDK pixbuf plugin)
+ This library aims to be a friendly, portable C implementation of the AV1
+ Image File Format as described in https://aomediacodec.github.io/av1-avif/.
+ .
+ This package provides the GDK pixbuf plugin for the library.

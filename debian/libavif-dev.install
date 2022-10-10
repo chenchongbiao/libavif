@@ -1,0 +1,4 @@
+usr/include/
+usr/lib/*/cmake/libavif/
+usr/lib/*/libavif.so
+usr/lib/*/pkgconfig/

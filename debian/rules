@@ -1,0 +1,36 @@
+#!/usr/bin/make -f
+# See debhelper(7) (uncomment to enable)
+# output every command that modifies files on the build system.
+#export DH_VERBOSE = 1
+
+# see FEATURE AREAS in dpkg-buildflags(1)
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+# see ENVIRONMENT in dpkg-buildflags(1)
+# package maintainers to append CFLAGS
+#export DEB_CFLAGS_MAINT_APPEND  = -Wall -pedantic
+# package maintainers to append LDFLAGS
+export DEB_LDFLAGS_MAINT_APPEND =
+
+include /usr/share/dpkg/architecture.mk
+
+# only enable GAV1 on certain architectures
+# sync with debian/control
+LIBGAV1_FLAG := -DAVIF_CODEC_LIBGAV1=OFF
+
+ifneq (,$(filter $(DEB_HOST_ARCH), amd64 arm64 armel armhf i386 mips64el ppc64el s390x hppa ppc64 riscv64 x32))
+  LIBGAV1_FLAG := -DAVIF_CODEC_LIBGAV1=ON
+endif
+
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	# TODO: -DAVIF_CODEC_RAV1E=ON
+	dh_auto_configure -- \
+	    -DAVIF_BUILD_APPS=ON \
+	    -DAVIF_CODEC_DAV1D=ON \
+	    -DAVIF_CODEC_AOM=ON \
+	    $(LIBGAV1_FLAG) \
+	    -DAVIF_BUILD_GDK_PIXBUF=ON
