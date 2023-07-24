@@ -18,19 +18,62 @@ include /usr/share/dpkg/architecture.mk
 # sync with debian/control
 LIBGAV1_FLAG := -DAVIF_CODEC_LIBGAV1=OFF
 
-ifneq (,$(filter $(DEB_HOST_ARCH), amd64 arm64 armel armhf i386 mips64el ppc64el s390x hppa ppc64 riscv64 x32))
+ifneq (,$(filter $(DEB_HOST_ARCH), amd64 arm64 armel armhf i386 mips64el mipsel ppc64el s390x hppa ppc64 riscv64 x32))
   LIBGAV1_FLAG := -DAVIF_CODEC_LIBGAV1=ON
+endif
+
+
+# only enable SVT-AV1 on certain architectures
+# sync with debian/control
+SVT_FLAG := -DAVIF_CODEC_SVT=OFF
+
+ifneq (,$(filter $(DEB_HOST_ARCH), amd64 arm64 armel armhf mips64el mipsel ppc64el s390x hppa ia64 m68k powerpc ppc64 riscv64 sh4 sparc64))
+  SVT_FLAG := -DAVIF_CODEC_SVT=ON
+endif
+
+
+# only enable RAV1E on certain architectures
+# sync with debian/control
+RAV1E_FLAG := -DAVIF_CODEC_RAV1E=OFF
+
+ifneq (,$(filter $(DEB_HOST_ARCH), amd64 arm64 armel armhf i386 mips64el mipsel ppc64el s390x powerpc ppc64))
+  RAV1E_FLAG := -DAVIF_CODEC_RAV1E=ON
+endif
+
+
+# flag for building doc (man page)
+ifeq (,$(filter nodoc,$(DEB_BUILD_OPTIONS)))
+  MAN_PAGES_FLAG := -DAVIF_BUILD_MAN_PAGES=ON
+else
+  MAN_PAGES_FLAG := -DAVIF_BUILD_MAN_PAGES=OFF
 endif
 
 
 %:
 	dh $@
 
+# rpath: check https://bugs.debian.org/1003371
+#        drop when debhelper-compat >= 14
 override_dh_auto_configure:
-	# TODO: -DAVIF_CODEC_RAV1E=ON
 	dh_auto_configure -- \
 	    -DAVIF_BUILD_APPS=ON \
 	    -DAVIF_CODEC_DAV1D=ON \
 	    -DAVIF_CODEC_AOM=ON \
 	    $(LIBGAV1_FLAG) \
-	    -DAVIF_BUILD_GDK_PIXBUF=ON
+	    $(SVT_FLAG) \
+	    $(RAV1E_FLAG) \
+	    -DAVIF_BUILD_GDK_PIXBUF=ON \
+	    -DCMAKE_BUILD_RPATH_USE_ORIGIN=ON \
+	    $(MAN_PAGES_FLAG) \
+	    $(NULL)
+
+# Manual man page installation for nodoc profile/option
+# to avoid hard build-dependency on pandoc
+execute_after_dh_install:
+ifeq (,$(filter nodoc,$(DEB_BUILD_OPTIONS)))
+	install -d $(CURDIR)/debian/libavif-bin/usr/share/man/man1/
+	install -m644 debian/tmp/usr/share/man/man1/avifdec.1 debian/libavif-bin/usr/share/man/man1/
+	install -m644 debian/tmp/usr/share/man/man1/avifenc.1 debian/libavif-bin/usr/share/man/man1/
+	rm -f debian/tmp/usr/share/man/man1/avifdec.1
+	rm -f debian/tmp/usr/share/man/man1/avifenc.1
+endif

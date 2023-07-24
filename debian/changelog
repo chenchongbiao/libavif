@@ -1,8 +1,73 @@
-libavif (0.9.3-2) UNRELEASED; urgency=medium
+libavif (0.11.1-1) unstable; urgency=medium
 
-  * update
+  * New upstream version 0.11.1.
 
- -- Debian Multimedia Maintainers <debian-multimedia@lists.debian.org>  Wed, 25 May 2022 10:54:04 +0800
+ -- Boyuan Yang <byang@debian.org>  Tue, 25 Oct 2022 11:39:25 -0400
+
+libavif (0.11.0-1) unstable; urgency=medium
+
+  * Upload to unstable.
+
+ -- Boyuan Yang <byang@debian.org>  Wed, 19 Oct 2022 17:14:35 -0400
+
+libavif (0.11.0-1~exp1) experimental; urgency=medium
+
+  * New upstream version 0.11.0.
+    + Bump library SONAME to 15.
+  * debian/watch: Properly handle -rc tag.
+  * debian/control: Enable building man pages.
+  * debian/copyright: Refreshed.
+
+ -- Boyuan Yang <byang@debian.org>  Tue, 18 Oct 2022 15:52:57 -0400
+
+libavif (0.10.1-3) unstable; urgency=medium
+
+  * debian/: Enable rav1e support. (Closes: #972466)
+  * debian/control: Bump Standards-Version to 4.6.1.
+
+ -- Boyuan Yang <byang@debian.org>  Tue, 18 Oct 2022 14:58:51 -0400
+
+libavif (0.10.1-2) unstable; urgency=medium
+
+  [ Debian Janitor ]
+  * Trim trailing whitespace.
+  * Remove unused license definitions for Expat.
+
+  [ Boyuan Yang ]
+  * Rebuild against libgav1 (>> 0.18).
+  * debian/rules: Pass -DCMAKE_BUILD_RPATH_USE_ORIGIN=ON via
+    dh_auto_configure override. (Closes: #1003371)
+
+ -- Boyuan Yang <byang@debian.org>  Thu, 28 Jul 2022 14:31:47 -0400
+
+libavif (0.10.1-1) unstable; urgency=medium
+
+  * Upload to unstable.
+
+ -- Boyuan Yang <byang@debian.org>  Mon, 02 May 2022 13:00:03 -0400
+
+libavif (0.10.1-1~exp1) experimental; urgency=medium
+
+  * New upstream version 0.10.1.
+
+ -- Boyuan Yang <byang@debian.org>  Sat, 16 Apr 2022 20:56:42 -0400
+
+libavif (0.10.0-1~exp1) experimental; urgency=medium
+
+  * New upstream version 0.10.0.
+  * debian/: Enable svt-av1 encoder flags on supported platforms.
+  * Bump library SONAME to 14.
+  * debian/copyright: Refresh license information.
+  * debian/patches: Dropped, not used anymore.
+
+ -- Boyuan Yang <byang@debian.org>  Mon, 11 Apr 2022 13:32:43 -0400
+
+libavif (0.9.3-3) unstable; urgency=medium
+
+  * Enable libyuv support.
+  * Enable libgav1 suppoort for mipsel.
+
+ -- Boyuan Yang <byang@debian.org>  Mon, 14 Feb 2022 14:14:42 -0500
 
 libavif (0.9.3-2) unstable; urgency=high
 

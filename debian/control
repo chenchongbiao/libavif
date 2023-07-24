@@ -5,19 +5,25 @@ Maintainer: Debian Multimedia Maintainers <debian-multimedia@lists.debian.org>
 Uploaders:
  Boyuan Yang <byang@debian.org>,
 Build-Depends:
- cmake,
+ cmake (>= 3.13),
  debhelper-compat (= 13),
  libaom-dev (>= 3~),
  libcjson-dev,
  libdav1d-dev,
 # only enable when libgav1-dev exist, see rules file
- libgav1-dev [amd64 arm64 armel armhf i386 mips64el ppc64el s390x hppa ppc64 riscv64 x32],
+ libgav1-dev [amd64 arm64 armel armhf i386 mips64el mipsel ppc64el s390x hppa ppc64 riscv64 x32],
  libgdk-pixbuf2.0-dev,
  libjpeg-dev,
  libpng-dev,
+# only enable when librav1e-dev exist, see rules file
+ librav1e-dev [amd64 arm64 armel armhf i386 mips64el mipsel ppc64el s390x powerpc ppc64],
+# only enable when libsvtav1enc-dev exist, see rules file
+ libsvtav1enc-dev [amd64 arm64 armel armhf mips64el mipsel ppc64el s390x hppa ia64 m68k powerpc ppc64 riscv64 sh4 sparc64],
+ libyuv-dev,
+ pandoc <!nodoc>,
  pkg-config,
  zlib1g-dev,
-Standards-Version: 4.6.0
+Standards-Version: 4.6.1
 Rules-Requires-Root: no
 Homepage: https://github.com/AOMediaCodec/libavif
 Vcs-Git: https://salsa.debian.org/multimedia-team/libavif.git
@@ -27,7 +33,7 @@ Package: libavif-bin
 Section: utils
 Architecture: any
 Depends:
- libavif13 (= ${binary:Version}),
+ libavif15 (= ${binary:Version}),
  ${misc:Depends},
  ${shlibs:Depends},
 Description: Library for handling .avif files (utilities)
@@ -37,16 +43,13 @@ Description: Library for handling .avif files (utilities)
  This package provides several utilities provided by the library:
   - avifdec
   - avifenc
- .
- Due to the temporary lack of support libraries, no decoder is available
- for now. As a result, the avifenc binary won't work.
 
 Package: libavif-dev
 Section: libdevel
 Architecture: any
 Multi-Arch: same
 Depends:
- libavif13 (= ${binary:Version}),
+ libavif15 (= ${binary:Version}),
  ${misc:Depends},
 Description: Library for handling .avif files (development files)
  This library aims to be a friendly, portable C implementation of the AV1
@@ -54,7 +57,7 @@ Description: Library for handling .avif files (development files)
  .
  This package provides the development files.
 
-Package: libavif13
+Package: libavif15
 Architecture: any
 Multi-Arch: same
 Depends:
@@ -70,7 +73,7 @@ Package: libavif-gdk-pixbuf
 Architecture: any
 Multi-Arch: same
 Depends:
- libavif13 (= ${binary:Version}),
+ libavif15 (= ${binary:Version}),
  ${misc:Depends},
  ${shlibs:Depends},
 Breaks:
